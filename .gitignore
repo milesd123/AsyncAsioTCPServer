@@ -6,6 +6,9 @@ src/external/*
 # Prerequisites
 *.d
 
+*/.DS_Store
+.DS_Store
+
 # Compiled Object files
 *.slo
 *.lo
