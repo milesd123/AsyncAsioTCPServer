@@ -7,7 +7,7 @@ int main(int c, char* argv[])
 {
     if(c != 2)
     {
-        std::cout << "Usage:  ./program_name <server>" << std::endl;
+        std::cout << "Usage: ./program_name <server>" << std::endl;
         return 1;
     }
 
@@ -20,7 +20,6 @@ int main(int c, char* argv[])
 
     acceptor_.open(localhost.protocol()); 
     acceptor_.bind(localhost);
-    acceptor_.set_option(asio::ip::tcp::no_delay(true));
     acceptor_.set_option(asio::ip::tcp::acceptor::reuse_address(true));
     acceptor_.listen();
 

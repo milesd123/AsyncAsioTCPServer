@@ -16,8 +16,9 @@ private:
     void ReadDest();
     void End();
 
-    static const unsigned size = 4096;
+    static const size_t size = 4096;
 
     alignas(64) uint8_t outgoing_buffer[size];
     alignas(64) uint8_t incoming_buffer[size];
+    alignas(64) std::atomic_bool shutdown_initiated{false};
 };
