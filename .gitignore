@@ -1,8 +1,8 @@
-# Prerequisites
-*.d
-
 #asio
 src/external/
+
+# Prerequisites
+*.d
 
 # Compiled Object files
 *.slo
