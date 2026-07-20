@@ -19,8 +19,8 @@ int main(int c, char* argv[])
     asio::ip::tcp::endpoint endpoint_(asio::ip::tcp::v4(), 25565);
 
     acceptor_.open(endpoint_.protocol()); 
-    acceptor_.bind(endpoint_);
     acceptor_.set_option(asio::ip::tcp::acceptor::reuse_address(true));
+    acceptor_.bind(endpoint_);
     acceptor_.listen();
 
     std::vector<std::thread> workers;
