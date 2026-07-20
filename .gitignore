@@ -1,5 +1,7 @@
 #asio
 src/external/
+/src/external/
+src/external/*
 
 # Prerequisites
 *.d
