@@ -16,10 +16,10 @@ int main(int c, char* argv[])
     asio::ip::tcp::acceptor acceptor_(context_);
 
     asio::ip::tcp::resolver::results_type server_endpoints = get_endpoints(argv[1], context_);
-    asio::ip::tcp::endpoint localhost(asio::ip::make_address_v4("127.0.0.1"), 25565);
+    asio::ip::tcp::endpoint endpoint_(asio::ip::tcp::v4(), 25565);
 
-    acceptor_.open(localhost.protocol()); 
-    acceptor_.bind(localhost);
+    acceptor_.open(endpoint_.protocol()); 
+    acceptor_.bind(endpoint_);
     acceptor_.set_option(asio::ip::tcp::acceptor::reuse_address(true));
     acceptor_.listen();
 

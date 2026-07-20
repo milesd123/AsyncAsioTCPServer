@@ -1,5 +1,5 @@
 # cc = g++ -O3 -std=c++11 -Isrc/external/asio-1.36.0/include/ -fsanitize=address -fno-omit-frame-pointer -fsanitize=thread -g
-cc = g++ -O3 -std=c++11 -Isrc/external/asio-1.36.0/include/ 
+cc = g++ -O3 -std=c++11 -Isrc/external/asio
 
 src/build/program: src/build/main.o src/build/session.o
 	$(cc) $^ -o $@

@@ -48,8 +48,7 @@ src/external/*
 *.app
 
 # Build directories
-build/
-Build/
+Build/*
 build-*/
 
 # CMake generated files
