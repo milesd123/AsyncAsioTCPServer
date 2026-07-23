@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    container:
+      image: amazonlinux:2023
 
     steps:
       - uses: actions/checkout@v4
