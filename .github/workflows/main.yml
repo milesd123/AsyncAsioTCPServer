@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      -main
+      - main
 
 jobs:
   build:
@@ -22,4 +22,4 @@ jobs:
         run: make
 
       - name: Verify executable
-        run: test -f AsyncAsioTCPServer
+        run: test -f ProxyServer
