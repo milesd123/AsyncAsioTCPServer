@@ -40,6 +40,9 @@ jobs:
         with:
           name: ProxyServer
 
+      - name: Make File Executable
+        run: chmod +x ProxyServer
+
       - name: Copy executable
         uses: appleboy/scp-action@v1
         with:
