@@ -9,21 +9,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    container:
-      image: amazonlinux:2023
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install compiler
+      - name: Build inside Amazon Linux 2023
         run: |
-          dnf install -y gcc-c++ make tar
-
-      - name: Build
-        run: make
-
-      - name: Verify executable
-        run: test -f ProxyServer
+          docker run --rm \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            amazonlinux:2023 \
+            bash -c "
+              dnf install -y gcc-c++ make tar git &&
+              make &&
+              test -f ProxyServer
+            "
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
@@ -44,11 +44,6 @@ jobs:
 
       - name: Make executable
         run: chmod +x ProxyServer
-
-      - name: Install tar
-        run: |
-          sudo apt update
-          sudo apt install -y tar
 
       - name: Copy executable
         uses: appleboy/scp-action@v1
