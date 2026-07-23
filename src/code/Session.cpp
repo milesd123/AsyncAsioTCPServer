@@ -39,7 +39,6 @@ void Session::ConnectToServer()
     // VarInt of packet length, then varint of packetID
     // source.read_some(asio::mutable_buffer(incoming_buffer, size));
 
-    int dummy = 5;
 
     // Read first 5 bytes (max varint size)
 
