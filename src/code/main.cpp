@@ -80,11 +80,18 @@ asio::ip::tcp::resolver::results_type get_endpoints(char* input, asio::io_contex
 
     asio::error_code ec;
 
-    auto r = res.resolve(asio::ip::tcp::v4(), input, "25565", ec);
+    auto r = res.resolve(input, "25565", ec);
 
     if(ec) {
         std::cout << "Resolver Error: " << ec.message() << std::endl;
         exit(1);
+    }
+
+    std::cout << "Endpoints for " << input << ": "<<std::endl;
+    
+    for(auto& ep : r)
+    {
+        std::cout << ep.endpoint().address().to_string() << std::endl;
     }
 
     return r;

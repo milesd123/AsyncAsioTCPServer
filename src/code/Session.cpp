@@ -15,15 +15,30 @@ void Session::Start(asio::ip::tcp::resolver::results_type& endpoints)
             std::cout << "Connection Error: " << ec.message() << std::endl;
             self->End();
         }else{
-            // std::cout << "Connection Success: " << ep.address().to_string() << std::endl;
+            std::cout << "Connection Success: " << ep.address().to_string() << std::endl;
 
+            
             self->source.set_option(asio::ip::tcp::no_delay(true));
             self->dest.set_option(asio::ip::tcp::no_delay(true));
 
-            self->ReadDest();
+            // todo: re-write the first packet from the client to reflect
+            // the proper server name, not our proxy's...
+            // self->ConnectToServer();
+
             self->ReadSource();
+            self->ReadDest();
         }
     });
+}
+
+void Session::ConnectToServer()
+{
+    // We need to block read the source until we have the entire
+    // serverbound handshaking packet
+    // VarInt of packet length, then varint of packetID
+    // source.read_some(asio::mutable_buffer(incoming_buffer, size));
+
+
 }
 
 // Cancel & Close source and destination sockets

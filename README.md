@@ -8,11 +8,11 @@ This is made for linux
 
 Steps 
 
-git clone this repo
+<!-- git clone this repo
 cd AsyncAsioTCPServer/src && mkdir external && cd external
 wget https://github.com/chriskohlhoff/asio/archive/refs/tags/asio-1-36-0.tar.gz
 tar -xzf asio-1-36-0.tar.gz
-mv asio-asio-1-36-0/asio/include asio
+mv asio-asio-1-36-0/asio/include asio -->
 cd ../../
 mkdir src/build
 make (build the executable)

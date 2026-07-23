@@ -9,12 +9,13 @@ public:
 
     asio::ip::tcp::socket source;
     asio::ip::tcp::socket dest;
-    void End();
 private:
     void WriteSource(size_t);
     void ReadSource();
     void WriteDest(size_t);
     void ReadDest();
+    void End();
+    void ConnectToServer();
 
     static const size_t size = 4096;
 

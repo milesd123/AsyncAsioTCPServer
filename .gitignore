@@ -1,10 +1,7 @@
-#asio
-src/external/
-/src/external/
-src/external/*
-
 # Prerequisites
 *.d
+
+ProxyServer
 
 */.DS_Store
 .DS_Store
