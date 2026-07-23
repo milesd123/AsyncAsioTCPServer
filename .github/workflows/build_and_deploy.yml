@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     container:
       image: amazonlinux:2023
 
@@ -17,8 +17,7 @@ jobs:
 
       - name: Install compiler
         run: |
-          sudo apt update
-          sudo apt install -y g++ make tar
+          dnf install -y gcc-c++ make tar
 
       - name: Build
         run: make
@@ -43,7 +42,7 @@ jobs:
         with:
           name: ProxyServer
 
-      - name: Make File Executable
+      - name: Make executable
         run: chmod +x ProxyServer
 
       - name: Copy executable
