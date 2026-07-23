@@ -18,7 +18,7 @@ jobs:
       - name: Install compiler
         run: |
           sudo apt update
-          sudo apt install -y g++ make
+          sudo apt install -y g++ make tar
 
       - name: Build
         run: make
