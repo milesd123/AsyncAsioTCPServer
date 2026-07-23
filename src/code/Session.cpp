@@ -25,7 +25,8 @@ void Session::Start(asio::ip::tcp::resolver::results_type& endpoints)
             // the proper server name, not our proxy's...
             // self->ConnectToServer();
 
-            self->ReadSource();
+            self->ReadSource(); // comment this out or use WriteDest since COnnectToServer 
+                                // will automatically perform the first Source Read for us
             self->ReadDest();
         }
     });
@@ -38,7 +39,22 @@ void Session::ConnectToServer()
     // VarInt of packet length, then varint of packetID
     // source.read_some(asio::mutable_buffer(incoming_buffer, size));
 
+    int dummy = 5;
 
+    // Read first 5 bytes (max varint size)
+
+    // Varint read the packet length from the packet
+
+    // block read the packet
+
+    // if the packet is a login packet, rewrite it to the source buffer
+    // with the correct address
+
+    // if the packet is a ping packet, write it as normal to the source buffer
+
+    // write
+
+    // continue to WriteDest();
 }
 
 // Cancel & Close source and destination sockets
