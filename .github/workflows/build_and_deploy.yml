@@ -45,6 +45,11 @@ jobs:
       - name: Make executable
         run: chmod +x ProxyServer
 
+      - name: Install tar
+        run: |
+          sudo apt update
+          sudo apt install -y tar
+
       - name: Copy executable
         uses: appleboy/scp-action@v1
         with:
