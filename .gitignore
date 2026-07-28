@@ -46,7 +46,7 @@ ProxyServer
 
 # Build directories
 Build/*
-build-*/
+# build-*/
 
 # CMake generated files
 CMakeFiles/
