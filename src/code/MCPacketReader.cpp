@@ -39,7 +39,7 @@ asio::awaitable<bool> MCPacketReader::InterceptHandshake()
     if(next_state == 1) // status request
     {
         // just ping back with a cool message
-        std::cout << "Status Request" << std::endl;
+        // std::cout << "Status Request" << std::endl;
         co_await WriteCustomStatusRequest();
         co_return false;
     }
@@ -69,15 +69,15 @@ asio::awaitable<bool> MCPacketReader::InterceptHandshake()
         pos += varint::write(server_buffer + pos, 255U, new_next_state);
 
         total_written = pos;
-        std::cout << "New Packet " << std::endl;
-        std::cout << "ID: " << new_packet_id << std::endl;
-        std::cout << "Size: " << new_packet_length << std::endl;
-        std::cout << "Destination: " << server_ip << std::endl;
+        // std::cout << "New Packet " << std::endl;
+        // std::cout << "ID: " << new_packet_id << std::endl;
+        // std::cout << "Size: " << new_packet_length << std::endl;
+        // std::cout << "Destination: " << server_ip << std::endl;
 
-        std::cout << "Old Packet " << std::endl;
-        std::cout << "ID: " << packet_id << std::endl;
-        std::cout << "Size: " << packet_length << std::endl;
-        std::cout << "Destination: " << addr << std::endl;
+        // std::cout << "Old Packet " << std::endl;
+        // std::cout << "ID: " << packet_id << std::endl;
+        // std::cout << "Size: " << packet_length << std::endl;
+        // std::cout << "Destination: " << addr << std::endl;
 
         co_return true;
     }
@@ -163,7 +163,7 @@ asio::awaitable<bool> MCPacketReader::ReadVarInt(uint32_t& value)
         if((current_byte & 0x80) == 0) co_return true;
     }
 
-    std::cout << "Var Int Read Error" << std::endl;
+    // std::cout << "Var Int Read Error" << std::endl;
     co_return false;
 }
 
@@ -178,7 +178,7 @@ asio::awaitable<bool> MCPacketReader::FillPacket(std::vector<uint8_t>& packet)
             packet[i] = co_await CurrentByte();
         } catch(std::out_of_range& e)
         {
-            std::cout << "Error: " << e.what() << std::endl;
+            // std::cout << "Error: " << e.what() << std::endl;
             co_return false;
         }
     }

@@ -1,5 +1,5 @@
 # cc = g++ -O3 -std=c++11 -Isrc/external/asio -fsanitize=address -fno-omit-frame-pointer -g
-cc = g++ -O3 -std=c++20 -Isrc/external/asio -Isrc/external/json/include
+cc = g++ -O3 -std=c++20 -Isrc/external/asio -Isrc/external/json
 
 ProxyServer: src/build/main.o src/build/session.o src/build/varint.o src/build/mcpacketreader.o
 	$(cc) $^ -o $@
