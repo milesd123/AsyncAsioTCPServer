@@ -3,4 +3,6 @@
 
 *.o
 
-build_folder/*
+build_folder/*.o
+
+ProxyServer
