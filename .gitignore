@@ -27,6 +27,7 @@ ProxyServer
 *.dylib
 *.dll
 *.so.*
+*.o
 
 
 # Fortran module files
@@ -45,7 +46,7 @@ ProxyServer
 *.app
 
 # Build directories
-Build/*
+# build/*
 # build-*/
 
 # CMake generated files
