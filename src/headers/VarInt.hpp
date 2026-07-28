@@ -3,7 +3,7 @@
 
 namespace varint
 {
-    size_t read(uint8_t*, uint32_t&);
+    size_t read(uint8_t*, size_t, uint32_t&);
 
-    size_t write(uint8_t*, uint32_t);
+    size_t write(uint8_t*, size_t, uint32_t);
 }

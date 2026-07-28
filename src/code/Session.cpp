@@ -1,62 +1,46 @@
 #include "../headers/Session.hpp"
 
-Session::Session(asio::io_context& ctx) : dest(ctx), source(ctx) {}
+Session::Session(asio::io_context& ctx, std::string& s) : dest(ctx), source(ctx), target_host(s) {}
 
-void Session::Start(asio::ip::tcp::resolver::results_type& endpoints)
+asio::awaitable<void> Session::Start(asio::ip::tcp::resolver::results_type& endpoints)
 {
     std::shared_ptr<Session> self = shared_from_this(); // get pointer to ourself
 
     asio::error_code ec;
 
-    asio::async_connect(dest, endpoints, [self](asio::error_code ec, asio::ip::tcp::endpoint ep)
+    asio::ip::tcp::endpoint endpoint__ = (*(endpoints.begin())).endpoint();
+    std::string endpoint_str = endpoint__.address().to_string();
+
+    MCPacketReader interceptor(source, outgoing_buffer, endpoint_str);
+
+    bool success = co_await interceptor.InterceptHandshake();
+
+    if(!success) {
+        End();
+        co_return;
+    }
+    uint32_t wrote = interceptor.GetPacketSize();
+
+    dest.async_connect(endpoint__, [self, endpoint_str, wrote](asio::error_code ec)
     {
         if(ec)
         {
             std::cout << "Connection Error: " << ec.message() << std::endl;
             self->End();
         }else{
-            std::cout << "Connection Success: " << ep.address().to_string() << std::endl;
+            std::cout << "Connection Success: " << endpoint_str << std::endl;
 
-            
             self->source.set_option(asio::ip::tcp::no_delay(true));
             self->dest.set_option(asio::ip::tcp::no_delay(true));
 
-            // todo: re-write the first packet from the client to reflect
-            // the proper server name, not our proxy's...
-            // self->ConnectToServer();
-
-            self->ReadSource(); // comment this out or use WriteDest since COnnectToServer 
-                                // will automatically perform the first Source Read for us
-            self->ReadDest();
+            self->WriteDest(static_cast<size_t>(wrote));
+            // self->ReadSource();
+            self->ReadDest();  
         }
-    });
+    } );
 }
 
-void Session::ConnectToServer()
-{
-    // We need to block read the source until we have the entire
-    // serverbound handshaking packet
-    // VarInt of packet length, then varint of packetID
-    // source.read_some(asio::mutable_buffer(incoming_buffer, size));
 
-
-    // Read first 5 bytes (max varint size)
-
-    // Varint read the packet length from the packet
-
-    // block read the packet
-
-    // if the packet is a login packet, rewrite it to the source buffer
-    // with the correct address
-
-    // if the packet is a ping packet, write it as normal to the source buffer
-
-    // write
-
-    // continue to WriteDest();
-}
-
-// Cancel & Close source and destination sockets
 void Session::End()
 {
     bool expected = false;

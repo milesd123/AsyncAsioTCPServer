@@ -3,6 +3,8 @@
 asio::io_context context_;
 asio::ip::tcp::acceptor acceptor_(context_);
 
+std::string target_host("UNSET");
+
 void handler(int signal)
 {
     // todo: safely shutdown application
@@ -18,8 +20,14 @@ int main(int c, char* argv[])
     if(c != 2)
     {
         std::cout << "Usage: ./program_name <server>" << std::endl;
+        
         return 1;
     }
+    else
+    {
+        target_host = argv[1];
+    }
+
 
     std::signal(SIGINT, handler);
 
@@ -34,14 +42,12 @@ int main(int c, char* argv[])
     acceptor_.listen();
 
     // Start accepting connections
-    std::cout << "Accepting Connections, forwarding to " << argv[1] << std::endl;
+    std::cout << "Accepting Connections, forwarding to " << target_host << std::endl;
     accept_connections(acceptor_, context_, server_endpoints);
-
 
     // Workers that will submit themselves to poll from a queue of handlers
     // which will be submitted by Sessions
     std::vector<std::thread> workers;
-
 
     for(unsigned i = 0; i < std::thread::hardware_concurrency(); i++)
     {
@@ -59,7 +65,7 @@ int main(int c, char* argv[])
 
 void accept_connections(asio::ip::tcp::acceptor& acceptor, asio::io_context& ctx, asio::ip::tcp::resolver::results_type& endpoints)
 {
-    std::shared_ptr<Session> session = std::make_shared<Session>(ctx);
+    std::shared_ptr<Session> session = std::make_shared<Session>(ctx, target_host);
 
     acceptor.async_accept(session->source, [session, &ctx ,&acceptor, &endpoints](asio::error_code ec) {
 
@@ -67,8 +73,13 @@ void accept_connections(asio::ip::tcp::acceptor& acceptor, asio::io_context& ctx
             std::cout << "Acception Error" << ec.message() << std::endl;
             return;
         } 
-        // std::cout << "New Connection from " << session->source.remote_endpoint().address().to_string() << std::endl;
-        session->Start(endpoints);
+        try{
+            asio::co_spawn(ctx, session->Start(endpoints), asio::detached);
+        } catch(asio::system_error& e)
+        {
+            std::cout << "Error: " << e.what() << std::endl;
+            session->End();
+        }
 
         accept_connections(acceptor, ctx, endpoints);
     });
@@ -88,7 +99,7 @@ asio::ip::tcp::resolver::results_type get_endpoints(char* input, asio::io_contex
     }
 
     std::cout << "Endpoints for " << input << ": "<<std::endl;
-    
+
     for(auto& ep : r)
     {
         std::cout << ep.endpoint().address().to_string() << std::endl;
