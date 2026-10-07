@@ -120,9 +120,3 @@ ThreadSanitizer can be configured separately with `-DENABLE_THREAD_SANITIZER=ON`
 - Startup DNS resolution is synchronous. The connection deadline begins after the client handshake, not during startup DNS resolution.
 - Established relays have no idle timeout. An EOF or I/O error closes both sockets; TCP half-close forwarding is not implemented.
 - End-to-end testing with real Minecraft clients/servers and performance benchmarking remain future work.
-
-## Understanding the changes
-
-Read [CHANGES_AND_LEARNING_GUIDE.md](docs/CHANGES_AND_LEARNING_GUIDE.md) for the file-by-file changes, design explanations, and suggested exercises. Existing C++ comment text is preserved, including historical TODOs. Some comments moved with extracted code; adjacent notes clarify superseded comments where needed. The original README is retained in [docs/ORIGINAL_README.md](docs/ORIGINAL_README.md).
-
-Bundled third-party code and notices remain unchanged in `src/external/`. The existing deployment workflow retains its environment and destination settings and now runs tests before producing its deployment artifact.
